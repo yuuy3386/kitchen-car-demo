@@ -55,19 +55,57 @@
     .total-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-top: 1px solid var(--border); }
     .total-label { font-size: 14px; color: var(--sub); }
     .total-val { font-size: 22px; font-weight: 700; color: var(--primary); }
-    /* セット提案 */
-    .suggest-box { background: #FFFBEB; border: 1.5px solid #FDE68A; border-radius: 12px; padding: 14px; margin-bottom: 14px; display: none; }
-    .suggest-box h3 { font-size: 13px; font-weight: 700; color: #B45309; margin-bottom: 8px; }
-    .suggest-item { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid #FDE68A; }
-    .suggest-item:last-child { border-bottom: none; }
-    .suggest-name { font-size: 13px; font-weight: 600; }
-    .suggest-save { font-size: 12px; color: var(--ok); font-weight: 700; }
-    .suggest-btn { background: var(--warn); color: #fff; border: none; border-radius: 8px; padding: 6px 14px; font-size: 13px; font-weight: 700; cursor: pointer; }
-    /* お釣り */
-    .cash-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
-    .cash-item label { display: block; font-size: 12px; font-weight: 600; color: var(--sub); margin-bottom: 4px; }
-    .cash-item input { width: 100%; border: 1.5px solid var(--border); border-radius: 10px; padding: 10px 12px; font-size: 16px; font-weight: 700; outline: none; }
-    .cash-item input:focus { border-color: var(--primary); }
+    /* セット提案バナー */
+    .set-banners { display: flex; flex-direction: column; gap: 8px; margin: 10px 0 4px; }
+    .set-banner {
+      background: #FFFBEB; border: 1.5px solid #FCD34D; border-radius: 10px;
+      padding: 12px 14px; display: flex; align-items: center; gap: 10px;
+      animation: slideIn .2s ease;
+    }
+    @keyframes slideIn { from { opacity:0; transform:translateY(-6px); } to { opacity:1; transform:translateY(0); } }
+    .set-banner-body { flex: 1; min-width: 0; }
+    .set-banner-name { font-size: 13px; font-weight: 700; color: #92400E; margin-bottom: 4px; }
+    .set-banner-compare { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .set-unit-total { font-size: 12px; color: var(--sub); text-decoration: line-through; }
+    .set-arrow { font-size: 11px; color: var(--sub); }
+    .set-price-after { font-size: 13px; font-weight: 700; color: var(--text); }
+    .set-save-badge {
+      background: #D1FAE5; color: #065F46; border-radius: 6px;
+      font-size: 12px; font-weight: 700; padding: 2px 8px; white-space: nowrap;
+    }
+    .set-apply-btn {
+      background: #D97706; color: #fff; border: none; border-radius: 8px;
+      padding: 8px 14px; font-size: 13px; font-weight: 700; cursor: pointer;
+      white-space: nowrap; flex-shrink: 0;
+    }
+    .set-apply-btn:active { opacity: .85; }
+    /* セット適用済み行 */
+    .order-row.set-row { background: #EFF6FF; border: 1px solid #BFDBFE; }
+    .set-row-badge { background: #2563EB; color: #fff; font-size: 10px; font-weight: 700; border-radius: 4px; padding: 1px 6px; white-space: nowrap; flex-shrink: 0; }
+    .set-row-name { font-size: 13px; font-weight: 700; }
+    .set-row-contents { font-size: 11px; color: var(--sub); margin-top: 2px; }
+    .set-row-saving { font-size: 11px; color: var(--ok); font-weight: 600; margin-top: 1px; }
+    .set-row-price { font-size: 14px; font-weight: 700; color: var(--primary); min-width: 60px; text-align: right; }
+    .set-undo-btn { background: #FEE2E2; color: var(--danger); border: none; border-radius: 8px; width: 28px; height: 28px; cursor: pointer; font-size: 14px; flex-shrink: 0; }
+    /* 現金会計エリア */
+    .cash-total-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0 12px; border-bottom: 1px solid var(--border); margin-bottom: 12px; }
+    .cash-total-label { font-size: 13px; color: var(--sub); }
+    .cash-total-val { font-size: 20px; font-weight: 700; color: var(--text); }
+    /* お預かり表示 */
+    .received-disp { background: var(--bg); border: 2px solid var(--primary); border-radius: 14px; padding: 14px 16px; margin-bottom: 10px; }
+    .received-label { font-size: 12px; font-weight: 600; color: var(--sub); margin-bottom: 4px; }
+    .received-val { font-size: 32px; font-weight: 700; color: var(--text); text-align: right; letter-spacing: 1px; min-height: 40px; }
+    /* クイック金額ボタン */
+    .quick-btns { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 10px; }
+    .quick-btn { background: #EFF6FF; color: var(--primary); border: 1.5px solid #BFDBFE; border-radius: 10px; padding: 8px 4px; font-size: 13px; font-weight: 700; cursor: pointer; text-align: center; }
+    .quick-btn:active { background: #DBEAFE; }
+    /* 電卓キーパッド */
+    .keypad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px; }
+    .key-btn { background: var(--card); border: 1.5px solid var(--border); border-radius: 12px; padding: 16px 8px; font-size: 20px; font-weight: 700; cursor: pointer; text-align: center; color: var(--text); transition: background .1s; }
+    .key-btn:active { background: var(--bg); }
+    .key-btn.key-clear { background: #FEE2E2; color: var(--danger); border-color: #FECACA; font-size: 16px; }
+    .key-btn.key-clear:active { background: #FEF2F2; }
+    /* お釣り表示 */
     .change-disp { background: #F0FDF4; border: 1.5px solid #86EFAC; border-radius: 12px; padding: 14px; text-align: center; margin-bottom: 12px; display: none; }
     .change-disp .change-label { font-size: 13px; color: var(--sub); }
     .change-disp .change-val { font-size: 32px; font-weight: 700; color: var(--ok); }
@@ -104,7 +142,6 @@
     /* empty */
     .empty { text-align: center; padding: 24px; color: var(--sub); font-size: 14px; }
     @media(max-width:480px) {
-      .cash-grid { grid-template-columns: 1fr; }
       .cost-grid { grid-template-columns: 1fr; }
     }
   </style>
@@ -129,16 +166,13 @@
       <div class="product-grid" id="product-grid"></div>
     </div>
 
-    <div id="suggest-box" class="suggest-box">
-      <h3>💡 セットにするとお得！</h3>
-      <div id="suggest-list"></div>
-    </div>
-
     <div class="card">
       <h2>注文内容</h2>
       <div class="order-list" id="order-list">
         <div class="empty">商品をタップして追加してください</div>
       </div>
+      <!-- セット提案バナー（注文内容エリア内） -->
+      <div class="set-banners" id="set-banners" style="display:none"></div>
       <div class="total-row">
         <span class="total-label">合計</span>
         <span class="total-val" id="total-disp">¥0</span>
@@ -147,16 +181,39 @@
 
     <div class="card">
       <h2>現金会計</h2>
-      <div class="cash-grid">
-        <div class="cash-item">
-          <label>合計金額</label>
-          <input type="number" id="amount-disp" readonly placeholder="¥0" />
-        </div>
-        <div class="cash-item">
-          <label>お預かり金額</label>
-          <input type="number" id="received" placeholder="0" oninput="calcChange()" />
-        </div>
+      <!-- 合計金額 -->
+      <div class="cash-total-row">
+        <span class="cash-total-label">合計金額</span>
+        <span class="cash-total-val" id="amount-disp">¥0</span>
       </div>
+      <!-- お預かり表示 -->
+      <div class="received-disp">
+        <div class="received-label">お預かり金額</div>
+        <div class="received-val" id="received-disp">—</div>
+      </div>
+      <!-- クイックボタン -->
+      <div class="quick-btns">
+        <button class="quick-btn" onclick="setReceived(500)">¥500</button>
+        <button class="quick-btn" onclick="setReceived(1000)">¥1,000</button>
+        <button class="quick-btn" onclick="setReceived(5000)">¥5,000</button>
+        <button class="quick-btn" onclick="setReceived(10000)">¥10,000</button>
+      </div>
+      <!-- 電卓キーパッド -->
+      <div class="keypad">
+        <button class="key-btn" onclick="keypadPress('7')">7</button>
+        <button class="key-btn" onclick="keypadPress('8')">8</button>
+        <button class="key-btn" onclick="keypadPress('9')">9</button>
+        <button class="key-btn" onclick="keypadPress('4')">4</button>
+        <button class="key-btn" onclick="keypadPress('5')">5</button>
+        <button class="key-btn" onclick="keypadPress('6')">6</button>
+        <button class="key-btn" onclick="keypadPress('1')">1</button>
+        <button class="key-btn" onclick="keypadPress('2')">2</button>
+        <button class="key-btn" onclick="keypadPress('3')">3</button>
+        <button class="key-btn" onclick="keypadPress('00')">00</button>
+        <button class="key-btn" onclick="keypadPress('0')">0</button>
+        <button class="key-btn key-clear" onclick="keypadPress('del')">⌫</button>
+      </div>
+      <!-- お釣り表示（自動） -->
       <div class="change-disp" id="change-disp">
         <div class="change-label">お釣り</div>
         <div class="change-val" id="change-val">¥0</div>
@@ -244,17 +301,37 @@ const PRODUCTS = [
   { id:10,name:'クラフトビール',               price:500, cat:'ドリンク',cost:150 },
 ];
 
-// ===== セット定義（サンプル） =====
+// ===== セット定義（条件ベース・追加可能） =====
+// conditions: { type:'category'|'id', value: カテゴリ名|商品ID, qty: 必要数 }
+// discount: 単品合計からの値引き額
 const SETS = [
-  { name:'バーガー＋ポテト(M)セット', items:[1,5], setPrice:1150, save:100 },
-  { name:'バーガー＋ポテト(M)＋ドリンクセット', items:[1,5,8], setPrice:1250, save:200 },
-  { name:'チキン南蛮セット', items:[2,5,8], setPrice:1100, save:200 },
-  { name:'テリヤキセット', items:[3,5,8], setPrice:1000, save:230 },
+  {
+    id: 'burger_set',
+    name: 'バーガーセット',
+    conditions: [
+      { type: 'category', value: 'バーガー', qty: 1 },
+      { type: 'id',       value: 5,          qty: 1 },  // ポテトM
+      { type: 'category', value: 'ドリンク',  qty: 1 },
+    ],
+    discount: 20,
+  },
+  {
+    id: 'family_set',
+    name: 'ファミリーセット',
+    conditions: [
+      { type: 'category', value: 'バーガー', qty: 2 },
+      { type: 'id',       value: 6,          qty: 1 },  // ポテトL
+      { type: 'category', value: 'ドリンク',  qty: 2 },
+    ],
+    discount: 50,
+  },
+  // ▼ セットを追加するときはここにオブジェクトを追加するだけ
 ];
 
 let order = [];
 let costs = {};
 let history = [];
+let receivedAmount = 0;
 
 function init() {
   // 原価をローカルストレージから復元
@@ -303,27 +380,48 @@ function changeQty(id, delta) {
 
 function renderOrder() {
   const list = document.getElementById('order-list');
+  const visible = order.filter(x => !x._setId); // セット消費済みは非表示
+
   if (order.length === 0) {
     list.innerHTML = '<div class="empty">商品をタップして追加してください</div>';
   } else {
-    list.innerHTML = order.map(item => `
-      <div class="order-row">
-        <span class="order-name">${item.name}</span>
-        <div class="qty-ctrl">
-          <button class="qty-btn" onclick="changeQty(${item.id},-1)">−</button>
-          <span class="qty-num">${item.qty}</span>
-          <button class="qty-btn" onclick="changeQty(${item.id},1)">＋</button>
-        </div>
-        <span class="order-price">¥${(item.price * item.qty).toLocaleString()}</span>
-        <button class="del-btn" onclick="removeItem(${item.id})">✕</button>
-      </div>
-    `).join('');
+    list.innerHTML = order.map(item => {
+      // ── セット適用済み行 ──
+      if (item.isSet) {
+        const contentsStr = item.consumed.map(c => c.name + (c.qty > 1 ? '×' + c.qty : '')).join(' + ');
+        return `
+          <div class="order-row set-row">
+            <span class="set-row-badge">セット</span>
+            <div style="flex:1;min-width:0">
+              <div class="set-row-name">${item.name}</div>
+              <div class="set-row-contents">${contentsStr}</div>
+              <div class="set-row-saving">▼ ¥${item.saving}引き適用済み</div>
+            </div>
+            <span class="set-row-price">¥${item.price.toLocaleString()}</span>
+            <button class="set-undo-btn" onclick="undoSet('${item.setId}')">✕</button>
+          </div>`;
+      }
+      // ── セットに消費された単品は非表示 ──
+      if (item._setId) return '';
+      // ── 通常行 ──
+      return `
+        <div class="order-row">
+          <span class="order-name">${item.name}</span>
+          <div class="qty-ctrl">
+            <button class="qty-btn" onclick="changeQty(${item.id},-1)">−</button>
+            <span class="qty-num">${item.qty}</span>
+            <button class="qty-btn" onclick="changeQty(${item.id},1)">＋</button>
+          </div>
+          <span class="order-price">¥${(item.price * item.qty).toLocaleString()}</span>
+          <button class="del-btn" onclick="removeItem(${item.id})">✕</button>
+        </div>`;
+    }).join('');
   }
   const total = order.reduce((s, x) => s + x.price * x.qty, 0);
   document.getElementById('total-disp').textContent = '¥' + total.toLocaleString();
-  document.getElementById('amount-disp').value = total || '';
+  document.getElementById('amount-disp').textContent = total > 0 ? '¥' + total.toLocaleString() : '¥0';
   calcChange();
-  checkSuggestions();
+  checkSetSuggestions();
 }
 
 function removeItem(id) {
@@ -333,18 +431,44 @@ function removeItem(id) {
 
 function clearOrder() {
   order = [];
-  document.getElementById('received').value = '';
+  receivedAmount = 0;
+  document.getElementById('received-disp').textContent = '—';
   document.getElementById('change-disp').style.display = 'none';
+  document.getElementById('set-banners').style.display = 'none';
   renderOrder();
 }
 
-// ===== お釣り =====
+// ===== 電卓キーパッド =====
+let receivedStr = '';
+
+function keypadPress(key) {
+  if (key === 'del') {
+    receivedStr = receivedStr.slice(0, -1);
+  } else if (key === '00') {
+    if (receivedStr.length > 0) receivedStr += '00';
+  } else {
+    if (receivedStr.length >= 6) return; // 最大6桁
+    receivedStr += key;
+  }
+  receivedAmount = parseInt(receivedStr) || 0;
+  document.getElementById('received-disp').textContent =
+    receivedAmount > 0 ? '¥' + receivedAmount.toLocaleString() : '—';
+  calcChange();
+}
+
+function setReceived(amount) {
+  receivedAmount = amount;
+  receivedStr = String(amount);
+  document.getElementById('received-disp').textContent = '¥' + amount.toLocaleString();
+  calcChange();
+}
+
+// ===== お釣り（自動計算） =====
 function calcChange() {
   const total = order.reduce((s, x) => s + x.price * x.qty, 0);
-  const received = parseInt(document.getElementById('received').value) || 0;
   const changeBox = document.getElementById('change-disp');
-  if (received > 0 && total > 0) {
-    const change = received - total;
+  if (receivedAmount > 0 && total > 0) {
+    const change = receivedAmount - total;
     document.getElementById('change-val').textContent = (change >= 0 ? '¥' : '−¥') + Math.abs(change).toLocaleString();
     changeBox.style.display = 'block';
     changeBox.style.borderColor = change >= 0 ? '#86EFAC' : '#FCA5A5';
@@ -359,12 +483,12 @@ function calcChange() {
 function confirmOrder() {
   if (order.length === 0) { alert('注文がありません'); return; }
   const total = order.reduce((s, x) => s + x.price * x.qty, 0);
-  const received = parseInt(document.getElementById('received').value) || 0;
+  const received = receivedAmount;
   if (received < total) { alert('お預かり金額が合計より少ないです'); return; }
   const record = {
     id: Date.now(),
     date: new Date().toLocaleString('ja-JP'),
-    items: order.map(x => ({ name: x.name, qty: x.qty, price: x.price })),
+    items: order.map(x => ({ name: x.name, qty: x.qty, price: x.price, isSet: x.isSet || false, saving: x.saving || 0 })),
     total,
     received,
     change: received - total,
@@ -376,32 +500,122 @@ function confirmOrder() {
   switchTab('history');
 }
 
-// ===== セット提案 =====
-function checkSuggestions() {
-  const orderIds = order.map(x => x.id);
-  const box = document.getElementById('suggest-box');
-  const list = document.getElementById('suggest-list');
-  const matches = SETS.filter(s => s.items.some(id => orderIds.includes(id)));
-  if (matches.length === 0 || order.length === 0) { box.style.display = 'none'; return; }
-  list.innerHTML = matches.map(s => `
-    <div class="suggest-item">
-      <div>
-        <div class="suggest-name">${s.name}</div>
-        <div class="suggest-save">→ ¥${s.setPrice.toLocaleString()} (¥${s.save}お得)</div>
-      </div>
-      <button class="suggest-btn" onclick="applySet(${JSON.stringify(s.items).replace(/"/g,'&quot;')},${s.setPrice})">適用</button>
-    </div>`).join('');
-  box.style.display = 'block';
+// ===== セット提案（自動判定） =====
+
+// 注文からセット条件を満たすアイテムを抽出。満たせなければ null を返す
+function getConsumedItems(set) {
+  const pool = order
+    .filter(o => !o.isSet && !o._setId)
+    .map(o => ({ ...o })); // shallow copy で qty を操作
+
+  const consumed = [];
+  for (const cond of set.conditions) {
+    let need = cond.qty;
+    if (cond.type === 'category') {
+      for (const item of pool) {
+        if (item.cat === cond.value && need > 0) {
+          const take = Math.min(item.qty, need);
+          consumed.push({ id: item.id, name: item.name, price: item.price, cat: item.cat, cost: item.cost, qty: take });
+          item.qty -= take;
+          need -= take;
+        }
+      }
+    } else { // type === 'id'
+      const item = pool.find(o => o.id === cond.value);
+      if (item && item.qty >= need) {
+        consumed.push({ id: item.id, name: item.name, price: item.price, cat: item.cat, cost: item.cost, qty: need });
+        item.qty -= need;
+        need = 0;
+      }
+    }
+    if (need > 0) return null; // 条件未達
+  }
+  return consumed;
 }
 
-function applySet(itemIds, setPrice) {
-  order = order.filter(x => !itemIds.includes(x.id));
-  const setProduct = { id: 9999, name: 'セットメニュー', price: setPrice, qty: 1, cost: 0 };
-  itemIds.forEach(id => {
-    const p = PRODUCTS.find(x => x.id === id);
-    if (p) setProduct.cost += costs[p.id] || p.cost;
+function checkSetSuggestions() {
+  const bannersEl = document.getElementById('set-banners');
+  // すでにセット適用中のものは提案から除外
+  const appliedIds = order.filter(o => o.isSet).map(o => o.setId);
+  const matched = [];
+
+  SETS.forEach(set => {
+    if (appliedIds.includes(set.id)) return;
+    const consumed = getConsumedItems(set);
+    if (!consumed) return;
+    const unitTotal = consumed.reduce((s, c) => s + c.price * c.qty, 0);
+    const setPrice  = unitTotal - set.discount;
+    matched.push({ set, consumed, unitTotal, setPrice });
   });
-  order.push(setProduct);
+
+  if (matched.length === 0) { bannersEl.style.display = 'none'; return; }
+
+  bannersEl.innerHTML = matched.map(({ set, unitTotal, setPrice }) => `
+    <div class="set-banner">
+      <div class="set-banner-body">
+        <div class="set-banner-name">💡 ${set.name} が適用できます</div>
+        <div class="set-banner-compare">
+          <span class="set-unit-total">単品合計 ¥${unitTotal.toLocaleString()}</span>
+          <span class="set-arrow">→</span>
+          <span class="set-price-after">セット ¥${setPrice.toLocaleString()}</span>
+          <span class="set-save-badge">¥${set.discount} お得</span>
+        </div>
+      </div>
+      <button class="set-apply-btn" onclick="applySet('${set.id}')">適用する</button>
+    </div>`).join('');
+  bannersEl.style.display = 'flex';
+}
+
+function applySet(setId) {
+  const set = SETS.find(s => s.id === setId);
+  if (!set) return;
+  const consumed = getConsumedItems(set);
+  if (!consumed) return;
+
+  const unitTotal = consumed.reduce((s, c) => s + c.price * c.qty, 0);
+  const setPrice  = unitTotal - set.discount;
+  const setCost   = consumed.reduce((s, c) => s + (costs[c.id] || c.cost) * c.qty, 0);
+
+  // 消費したアイテムに _setId を付ける（非表示になる）
+  consumed.forEach(c => {
+    let remaining = c.qty;
+    for (const o of order) {
+      if (o.id === c.id && !o._setId && remaining > 0) {
+        const take = Math.min(o.qty, remaining);
+        if (take === o.qty) {
+          o._setId = setId;
+        } else {
+          // qty が余る場合は分割
+          o.qty -= take;
+          order.push({ ...o, qty: take, _setId: setId });
+        }
+        remaining -= take;
+      }
+    }
+  });
+
+  // セット行を追加
+  order.push({
+    id: 'set_' + setId + '_' + Date.now(),
+    isSet: true,
+    setId,
+    name: set.name,
+    price: setPrice,
+    qty: 1,
+    cost: setCost,
+    saving: set.discount,
+    consumed,
+  });
+  renderOrder();
+}
+
+function undoSet(setId) {
+  // セット行を削除
+  order = order.filter(o => !(o.isSet && o.setId === setId));
+  // 消費済みアイテムの _setId を解除
+  order.forEach(o => { if (o._setId === setId) o._setId = null; });
+  // qty=0 になったゴミを除去
+  order = order.filter(o => o.qty > 0);
   renderOrder();
 }
 
@@ -544,10 +758,19 @@ function saveGasUrl() {
 async function sendHistoryToSheet() {
   const url = localStorage.getItem('kc_gas_url');
   if (!url) { showStatus('GAS URLを先に設定してください', 'err'); return; }
+  if (history.length === 0) { showStatus('会計履歴がありません。先に会計を確定してください', 'err'); return; }
+  showStatus('送信中...', 'ok');
   try {
-    await fetch(url, { method:'POST', body: JSON.stringify({ type:'history', data: history }), mode:'no-cors' });
-    showStatus('送信しました（スプレッドシートを確認してください）', 'ok');
-  } catch(e) { showStatus('送信エラー: ' + e.message, 'err'); }
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify({ type: 'history', data: history }),
+    });
+    const json = await res.json();
+    showStatus(json.message || '送信しました', json.status === 'ok' ? 'ok' : 'err');
+  } catch(e) {
+    showStatus('送信エラー: ' + e.message, 'err');
+  }
 }
 
 async function sendMonthlyToSheet() {
@@ -558,10 +781,18 @@ async function sendMonthlyToSheet() {
     const sold = Math.max(0, d.open + d.buy - d.waste);
     return { name: p.name, price: p.price, cost: costs[p.id]||p.cost, ...d, sold, revenue: sold*p.price, profit: sold*p.price - sold*(costs[p.id]||p.cost) };
   });
+  showStatus('送信中...', 'ok');
   try {
-    await fetch(url, { method:'POST', body: JSON.stringify({ type:'monthly', data }), mode:'no-cors' });
-    showStatus('送信しました', 'ok');
-  } catch(e) { showStatus('送信エラー', 'err'); }
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify({ type: 'monthly', data }),
+    });
+    const json = await res.json();
+    showStatus(json.message || '送信しました', json.status === 'ok' ? 'ok' : 'err');
+  } catch(e) {
+    showStatus('送信エラー: ' + e.message, 'err');
+  }
 }
 
 function showStatus(msg, type) {
