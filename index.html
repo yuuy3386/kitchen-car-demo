@@ -148,6 +148,16 @@
     .status-err { background: #FEF2F2; color: var(--danger); }
     .empty { text-align: center; padding: 24px; color: var(--sub); font-size: 14px; }
 
+    /* スプレッドシートリンクバナー */
+    .sheet-banner { display: flex; align-items: center; gap: 8px; background: #F0FDF4; border: 1px solid #BBF7D0; border-radius: 10px; padding: 10px 14px; margin-bottom: 14px; text-decoration: none; color: #065F46; font-size: 13px; font-weight: 600; }
+    .sheet-banner:hover { background: #DCFCE7; }
+    .sheet-banner-icon { font-size: 16px; }
+    .sheet-banner-sub { font-size: 11px; color: #047857; font-weight: 400; margin-top: 1px; }
+
+    /* トースト通知 */
+    .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: #1f2937; color: #fff; padding: 10px 20px; border-radius: 24px; font-size: 13px; font-weight: 600; z-index: 9999; opacity: 0; transition: all .3s ease; white-space: nowrap; pointer-events: none; }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
     @media(max-width:480px) {
       .cost-grid { grid-template-columns: 1fr; }
       .product-grid { grid-template-columns: repeat(3, 1fr); }
@@ -155,10 +165,19 @@
   </style>
 </head>
 <body>
+<div id="toast" class="toast"></div>
 <div class="wrap">
   <div class="demo-badge">DEMO — サンプルデータ使用</div>
   <h1>注文確認と会計の手間を減らす<br>キッチンカー向け管理ツール</h1>
-  <p style="font-size:13px;color:var(--sub);margin-bottom:16px">商品タップ → セット自動適用・復唱テキスト生成 → 会計確定まで一画面</p>
+  <p style="font-size:13px;color:var(--sub);margin-bottom:12px">商品タップ → セット自動適用・復唱テキスト生成 → 会計確定まで一画面</p>
+  <a class="sheet-banner" href="https://docs.google.com/spreadsheets/d/1jc5N3avhHCZ_gzlC4C-hqMd2N1OcrtwPMNUf8lvikns/edit" target="_blank" rel="noopener">
+    <span class="sheet-banner-icon">📊</span>
+    <div>
+      <div>スプレッドシートで確認</div>
+      <div class="sheet-banner-sub">会計確定すると自動でデータが記録されます</div>
+    </div>
+    <span style="margin-left:auto;font-size:12px;opacity:.6">↗</span>
+  </a>
 
   <div class="tabs">
     <button class="tab active" onclick="switchTab('order')">注文・会計</button>
@@ -310,6 +329,11 @@
 </div>
 
 <script>
+// ===== GAS設定（デプロイ後にURLを入力）=====
+// gas-demo.gs をデプロイして取得したURLをここに貼り付ける
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbxJXs4fhZ8c1Ruritis_91z-3y81RsJcfwY00hTvi5142hBlucSStgLhbQTxdHzcEop/exec';
+const SHEET_URL = 'https://docs.google.com/spreadsheets/d/1jc5N3avhHCZ_gzlC4C-hqMd2N1OcrtwPMNUf8lvikns/edit';
+
 // ===== 商品データ =====
 const PRODUCTS = [
   { id:1, name:'ビーフ',       price:220, cost:70  },
@@ -345,7 +369,11 @@ function init() {
   const saved = JSON.parse(localStorage.getItem('kc_costs') || '{}');
   PRODUCTS.forEach(p => { costs[p.id] = saved[p.id] ?? p.cost; });
   history = JSON.parse(localStorage.getItem('kc_history') || '[]');
-  const gasUrl = localStorage.getItem('kc_gas_url') || '';
+  // GAS_URL定数が設定されていればlocalStorageに保存（初回のみ）
+  if (GAS_URL && !localStorage.getItem('kc_gas_url')) {
+    localStorage.setItem('kc_gas_url', GAS_URL);
+  }
+  const gasUrl = localStorage.getItem('kc_gas_url') || GAS_URL || '';
   if (gasUrl) document.getElementById('gas-url').value = gasUrl;
   renderProducts();
   renderSetInfoBox();
@@ -587,6 +615,7 @@ function confirmOrder() {
   };
   history.unshift(record);
   localStorage.setItem('kc_history', JSON.stringify(history));
+  sendSingleOrder(record);   // スプレッドシートへ自動送信
   clearOrder();
   renderHistory();
   switchTab('history');
@@ -754,6 +783,32 @@ function saveCosts() {
 }
 
 // ===== GAS連携 =====
+
+// 会計確定時に1件自動送信（fire-and-forget）
+async function sendSingleOrder(record) {
+  const url = localStorage.getItem('kc_gas_url') || GAS_URL;
+  if (!url) return;   // URL未設定なら無視
+  try {
+    await fetch(url, {
+      method: 'POST',
+      mode: 'no-cors',
+      body: JSON.stringify({ type: 'order', data: record }),
+    });
+    showToast('📊 スプレッドシートに記録しました');
+  } catch (e) {
+    // 送信失敗は表示のみ（デモなので無視して問題なし）
+    console.warn('GAS送信エラー:', e);
+  }
+}
+
+// トースト表示
+function showToast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 2800);
+}
+
 function saveGasUrl() {
   localStorage.setItem('kc_gas_url', document.getElementById('gas-url').value.trim());
   showStatus('URLを保存しました', 'ok');
